@@ -1,0 +1,104 @@
+--
+-- Copyright 2016 Alexandre Terrasa <alexandre@moz-code.org>.
+--
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+--      http://www.apache.org/licenses/LICENSE-2.0
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+--
+
+model Jeu
+
+-- classes
+
+class Arme
+	attributes
+		dommages: Integer
+		aDeuxMains: Boolean
+
+	operations
+		getDommages(): Integer
+end
+
+class Enchantement
+	attributes
+		bonus: Integer
+
+	operations
+		getBonus(): Integer
+end
+
+class Equipe
+	attributes
+		nom: String
+
+	operations
+		estMorte(): Boolean
+end
+
+class Personnage
+	attributes
+		nom: String
+		vie: Integer
+		force: Integer
+		mana: Integer
+
+	operations
+		estMort(): Boolean
+		blesser(dommages: Integer)
+		attaquer(cible: Personnage)
+		equiperArme(arme: Arme)
+end
+
+class Metier
+end
+
+class Mage < Metier
+	operations
+		lancerSort(mage: Personnage, cible: Personnage, mana: Integer)
+end
+
+class Guerrier < Metier
+	operations
+		berserk(guerrier: Personnage, force: Integer)
+end
+
+class Pretre < Metier
+	operations
+		soigner(pretre: Personnage, cible: Personnage, mana: Integer)
+end
+
+-- associations
+
+association EquipePersonnage between
+	Equipe [0..1] role equipe
+	Personnage [3..8] role personnages
+end
+
+association EquipeChef between
+	Equipe [0..1] role equipe_chef
+	Personnage [1] role chef
+end
+
+association PersonnageArme between
+	Personnage [0..1] role personnage
+	Arme [0..1] role arme
+end
+
+association ArmeEnchant between
+	Arme [1] role arme
+	Enchantement [0..3] role enchantements
+end
+
+association PersonnageMetier between
+	Personnage [*] role personnage
+	Metier [1] role metier
+end
+
