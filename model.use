@@ -67,7 +67,7 @@ end
 
 class Guerrier < Metier
 	operations
-		berserk(guerrier: Personnage, force: Integer)
+		berserk(guerrier: Personnage, mana: Integer)
 end
 
 class Pretre < Metier
